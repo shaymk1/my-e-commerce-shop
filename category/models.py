@@ -3,12 +3,15 @@ from django.urls import reverse
 
 
 class Category(models.Model):
-  category_name = models.CharField(max_length=50, unique=True)
-  slug = models.SlugField(unique=True)
+    category_name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(unique=True)
 
-  class Meta:
-    verbose_name = 'category'
-    verbose_name_plural = 'categories'
+    class Meta:
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
 
-  def __str__(self):
-    return self.category_name
+    def __str__(self):
+        return self.category_name
+
+    def get_absolute_url(self):
+        return reverse('products_by_category', args=[self.slug])
