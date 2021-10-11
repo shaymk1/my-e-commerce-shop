@@ -17,6 +17,14 @@
 
 <!-- ============================ COMPONENT 1 ================================= -->
 
+{% if not cart_items %}
+	
+<h2 class ="text-center">Your shopping cart is empty</h2>
+<br>
+<div class ="text-center">
+<a href=" {% url 'store' %} " class = "btn btn-primary">Continue Shopping</a>
+</div>
+{% else %}	
 <div class="row">
 	<aside class="col-lg-9">
 <div class="card">
@@ -37,7 +45,7 @@
 		<figure class="itemside align-items-center">
 			<div class="aside"><img src="{{cart_item.product.image.url}}" class="img-sm"></div>
 			<figcaption class="info">
-				<a href="#" class="title text-dark">{{cart_item.product.product_name}}</a>
+				<a href=" {{cart_item.product.get_absolute_url}}" class="title text-dark">{{cart_item.product.product_name}}</a>
 				<p class="text-muted small"> Color: 25MPX <br> Size: Canon</p>
 			</figcaption>
 		</figure>
@@ -48,11 +56,11 @@
 					<div class="col"> 
 						<div class="input-group input-spinner">
 							<div class="input-group-prepend">
-							<a href = "" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
+							<a href = "{% url 'remove_cart' cart_item.product.id %}" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
 							</div>
-							<input type="text" class="form-control"  value="{{cart_item.quantity}}">
+							<input type="text" class="form-control"  value="{{ cart_item.quantity }}">
 							<div class="input-group-append">
-							<a  href = " {% url 'add_to_cart' cart_item.product.id %} " class="btn btn-light" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
+							<a  href = " {% url 'add_cart' cart_item.product.id %} " class="btn btn-light" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
 							</div>
 						</div> <!-- input-group.// -->
 					</div> <!-- col.// -->
@@ -60,19 +68,16 @@
 
 	<td> 
 		<div class="price-wrap"> 
-			<var class="price">R {{cart_item.sub_total}}</var> 
+			<var class="price">R {{ cart_item.sub_total }}</var> 
 			<small class="text-muted">  R {{cart_item.product.price}} </small> 
 		</div> <!-- price-wrap .// -->
 	</td>
 	<td class="text-right"> 
-	<a href="" class="btn btn-danger"> Remove</a>
+	<a href="{% url 'remove_cart_item' cart_item.product.id %}" class="btn btn-danger"> Remove</a>
 	</td>
 </tr>
 
 {% endfor %}
-
-
-
 
 
 </tbody>
@@ -86,15 +91,15 @@
 		<div class="card-body">
 			<dl class="dlist-align">
 			  <dt>Total price:</dt>
-			  <dd class="text-right">R 69.97</dd>
+			  <dd class="text-right">R {{total}}</dd>
 			</dl>
 			<dl class="dlist-align">
-			  <dt>Tax:</dt>
-			  <dd class="text-right"> R 10.00</dd>
+			  <dt>Vax:</dt>
+			  <dd class="text-right">R {{vat}}</dd>
 			</dl>
 			<dl class="dlist-align">
-			  <dt>Total:</dt>
-			  <dd class="text-right text-dark b"><strong>R 59.97</strong></dd>
+			  <dt>Grand_Total:</dt>
+			  <dd class="text-right text-dark b"><strong>R {{grand_total}}</strong></dd>
 			</dl>
 			<hr>
 			<p class="text-center mb-3">
@@ -110,7 +115,7 @@
 
 </div> <!-- row.// -->
 <!-- ============================ COMPONENT 1 END .// ================================= -->
-
+{% endif %}
 </div> <!-- container .//  -->
 </section>
 
