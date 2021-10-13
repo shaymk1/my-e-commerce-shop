@@ -94,11 +94,10 @@ def search(request):
                 # Q(category__icontains=keyword)
 
             )
-
             product_count = products.count()
+
     context = {
         'products': products,
-        'product_count': product_count,
+        'product_count': product_count
     }
-
     return render(request, 'store/store.html', context)
